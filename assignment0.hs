@@ -1,3 +1,5 @@
+module Curve where
+
 data Point = Point { x :: Double, y :: Double} deriving (Show)
 type Curve = [Point]
 
@@ -56,24 +58,25 @@ findMinMaxValues (p1, p2) comparePoint = (Point {x = (min (x p1) (x comparePoint
 
 bbox :: Curve -> (Point, Point)
 bbox [] = error "no items in the list"
+bbox (point:[]) = error "only one point"
 bbox points = 
 		let (minPoint, maxPoint) = (
 				Point {x = (min (x (head points)) (x (head (tail points)))) , y = (min (y (head points)) (y (head (tail points))))}, 
 				Point {x = (max (x (head points)) (x (head (tail points)))) , y = (max (y (head points)) (y (head (tail points))))})
 		in foldl findMinMaxValues (minPoint, maxPoint) (tail (tail points))
 
+width :: (Point, Point) -> Double
+width a = abs((x (fst a))) + (x (snd a))
 
+height :: (Point, Point) -> Double
+height a = abs((y (fst a))) + (y (snd a))
 
---width :: (Point, Point) -> Double
---width a = abs((x (fst a)) + (x (snd a))
-
---height :: (Point, Point) -> Double
---height a = abs((y (fst a)) + (y (snd a))
-
---toList :: Curve -> [Point]
+toList :: Curve -> [Point]
+toList [] = []
+toList (firstPoint:points) = firstPoint : (toList points)
 
 
 --TODO: Sanity Checks 
 --let p2 = point (4, 2)
 --let c1 = [point (2, 1),point (4, 5), point (3,3),point (2,5)]
---let c2 = [point (3,2), point (-2, -2), point (2,8), point (-4, -1), point (5, -6), point(-6,5)]
+--let c2 = [point (3,2), point (-2, -2), point (2,8), point (-4, -1), point (5, -6), point(-6,-5)]
