@@ -59,6 +59,7 @@ findMinMaxValues :: (Point, Point) -> Point -> (Point, Point)
 findMinMaxValues (p1, p2) comparePoint = (Point {x = (min (x p1) (x comparePoint)) , y = (min (y p1) (y comparePoint))},
 										  Point {x = (max (x p2) (x comparePoint)) , y = (max (y p2) (y comparePoint))})
 
+--TODO: Fix bounding box
 bbox :: Curve -> (Point, Point)
 bbox [] = error "no items in the list"
 bbox (point:[]) = error "only one point"
@@ -98,8 +99,23 @@ toSVG points =
 	 ++ (show (ceiling (height points))) ++ "px\" version=\"1.1\"><g>" 
 	 ++ printPoints points
 
---toFile :: Curve -> FilePath -> IO ()
---toFile points 
+toFile :: Curve -> FilePath -> IO ()
+toFile points filePath=
+	writeFile filePath (toSVG points)
+
+hilbert :: Curve -> Curve
+hilbert c = c0 `connect` c1 `connect` c2 `connect` c3
+   where  w = width c
+          h = height c
+          p = 6
+
+          ch = reflect c Horizontal 0
+
+          c0 = ch `rotate` (-90) `translate` (point (w+p+w, h+p+h))
+          c1 = c `translate` (point (w+p+w, h))
+          c2 = c
+          c3 = ch `rotate` 90 `translate` (point (0, h+p))
+
 
 --TODO: Sanity Checks 
 --let p2 = point (4, 2)
