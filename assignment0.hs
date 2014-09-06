@@ -1,5 +1,9 @@
 module Curve where
 
+import System.Environment
+import Text.Printf
+import System.IO
+
 data Point = Point { x :: Double, y :: Double} deriving (Show)
 type Curve = [Point]
 
@@ -13,7 +17,6 @@ comparePoints a b = (truncate ((x a) * 100)) - (truncate ((x b)* 100)) == 0 && (
 instance Eq Point where
 	a == b = comparePoints a b
 	a /= b = not (comparePoints a b)
-
 
 curve :: Point -> [Point] -> Curve
 curve point [] = [point]
@@ -65,18 +68,40 @@ bbox points =
 				Point {x = (max (x (head points)) (x (head (tail points)))) , y = (max (y (head points)) (y (head (tail points))))})
 		in foldl findMinMaxValues (minPoint, maxPoint) (tail (tail points))
 
-width :: (Point, Point) -> Double
-width a = abs((x (fst a))) + (x (snd a))
+width :: Curve -> Double
+width points = abs((x (fst a))) + (x (snd a))
+	where a = bbox points
 
-height :: (Point, Point) -> Double
-height a = abs((y (fst a))) + (y (snd a))
+height :: Curve -> Double
+height points = abs((y (fst a))) + (y (snd a))
+	where a = bbox points
+
 
 toList :: Curve -> [Point]
 toList [] = []
 toList (firstPoint:points) = firstPoint : (toList points)
 
+printPoints :: Curve -> String
+printPoints [] = error "empty list"
+printPoints (onePoint:[]) = "</g></svg>"
+printPoints (firstPoint:points) = 
+	"<line style=\"stroke-width: 2px; stroke: black; fill:white\" x1=\"" 
+            ++ (printf "%.2f" (x firstPoint)) ++ 
+            "\" x2=\"" ++ (printf "%.2f" (x (head points))) ++ 
+            "\" y1=\"" ++ (printf "%.2f" (y firstPoint)) ++ 
+            "\" y2=\"" ++ (printf "%.2f" (y (head points))) ++ "\" />" ++ (printPoints points)
+
+toSVG :: Curve -> String
+toSVG points = 
+	"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\""
+	 ++ (show (ceiling (width points))) ++ "px\" height=\""
+	 ++ (show (ceiling (height points))) ++ "px\" version=\"1.1\"><g>" 
+	 ++ printPoints points
+
+--toFile :: Curve -> FilePath -> IO ()
+--toFile points 
 
 --TODO: Sanity Checks 
 --let p2 = point (4, 2)
 --let c1 = [point (2, 1),point (4, 5), point (3,3),point (2,5)]
---let c2 = [point (3,2), point (-2, -2), point (2,8), point (-4, -1), point (5, -6), point(-6,-5)]
+c2 = [point (3.62,2.5), point (-2.5, -2.1), point (2.1,8.2), point (-4, -1.21), point (5, -6), point(-6,-5)]
