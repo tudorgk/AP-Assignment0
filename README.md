@@ -14,6 +14,18 @@ Example of usage:
 toFile  (hilbert $ hilbert $ hilbert $ hilbert $ curve (point (0,0)) []) "hilbert.svg"
 ```
 
-DESCRIPTION OF IMPLEMENTATION
------------------------------
+DESCRIPTION 
+-----------
 
+
+
+#### * Point and Curve data types
+
+```haskell
+data Point = Point { x :: Double, y :: Double} deriving (Show)
+type Curve = [Point]
+```
+
+### * Comparing 2 points
+
+We can use `(==)` for comparing 2 points because we declared `Point` as an instance od `Eq`
