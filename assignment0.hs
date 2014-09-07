@@ -111,10 +111,10 @@ hilbert c = c0 `connect` c1 `connect` c2 `connect` c3
 
           ch = reflect c Horizontal 0
 
-          c0 = ch `rotate` (-90) `translate` (point (w+p+w, h+p+h))
+          c0 = ch `rotate` (-1.571) `translate` (point (w+p+w, h+p+h))
           c1 = c `translate` (point (w+p+w, h))
           c2 = c
-          c3 = ch `rotate` 90 `translate` (point (0, h+p))
+          c3 = ch `rotate` 1.571 `translate` (point (0, h+p))
 
 
 --TODO: Sanity Checks 
