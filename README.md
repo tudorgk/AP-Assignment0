@@ -69,3 +69,10 @@ toSVG points =
 	 ++ (show (ceiling (height points))) ++ "px\" version=\"1.1\"><g>" 
 	 ++ printPoints points
 ```
+
+RESULT
+------
+
+A nice figure using Hilbert curves
+
+![alt text](http://www.diku.dk/~kflarsen/ap-2014/curves/4hilbert.svg "Hilbert curve figure")
