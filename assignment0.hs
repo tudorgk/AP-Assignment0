@@ -1,8 +1,8 @@
 module Curve where
 
-import System.Environment
+import System.Environment()
 import Text.Printf
-import System.IO
+import System.IO()
 
 data Point = Point { x :: Double, y :: Double} deriving (Show)
 type Curve = [Point]
@@ -19,15 +19,15 @@ instance Eq Point where
 	a /= b = not (comparePoints a b)
 
 curve :: Point -> [Point] -> Curve
-curve point [] = [point]
-curve point listPoints =  point:listPoints
+curve aPoint [] = [aPoint]
+curve aPoint listPoints =  aPoint:listPoints
 
 connect :: Curve -> Curve -> Curve
 connect c1 c2 = c1 ++ c2
 
 rotatePoint :: Double -> Point -> Point
-rotatePoint theta point
-	= Point { x = (x point) * c + (y point) * s , y = (y point) * c - (x point) * s}
+rotatePoint theta aPoint
+	= Point { x = (x aPoint) * c + (y aPoint) * s , y = (y aPoint) * c - (x aPoint) * s}
 		where (s, c) = (sin	theta, cos theta)
 
 rotate :: Curve -> Double -> Curve
@@ -62,7 +62,7 @@ findMinMaxValues (p1, p2) comparePoint = (Point {x = (min (x p1) (x comparePoint
 --TODO: Fix bounding box
 bbox :: Curve -> (Point, Point)
 bbox [] = error "no items in the list"
-bbox (point:[]) = (point, point)
+bbox (aPoint:[]) = (aPoint, aPoint)
 bbox points = 
 		let (minPoint, maxPoint) = (
 				Point {x = (min (x (head points)) (x (head (tail points)))) , y = (min (y (head points)) (y (head (tail points))))}, 
@@ -84,7 +84,7 @@ toList (firstPoint:points) = firstPoint : (toList points)
 
 printPoints :: Curve -> String
 printPoints [] = error "empty list"
-printPoints (onePoint:[]) = "</g></svg>"
+printPoints (_:[]) = "</g></svg>"
 printPoints (firstPoint:points) = 
 	"<line style=\"stroke-width: 2px; stroke: black; fill:white\" x1=\"" 
             ++ (printf "%.2f" (x firstPoint)) ++ 
@@ -120,4 +120,4 @@ hilbert c = c0 `connect` c1 `connect` c2 `connect` c3
 --TODO: Sanity Checks 
 --let p2 = point (4, 2)
 --let c1 = [point (2, 1),point (4, 5), point (3,3),point (2,5)]
-c2 = [point (3.62,2.5), point (-2.5, -2.1), point (2.1,8.2), point (-4, -1.21), point (5, -6), point(-6,-5)]
+--c2 = [point (3.62,2.5), point (-2.5, -2.1), point (2.1,8.2), point (-4, -1.21), point (5, -6), point(-6,-5)]
