@@ -1,5 +1,5 @@
-AP-Assignment0 - Look at Those Curves
-=====================================
+[AP-Assignment0 - Look at Those Curves](https://github.com/tudorgk/AP-Assignment0)
+=======================================
 
 The objective of this assignment is to gain hands-on programming experience with Haskell.
 
@@ -9,10 +9,11 @@ SYNOPSIS
 --------
 
 Example of usage:
-	
-	```
-	toFile  (hilbert $ hilbert $ hilbert $ hilbert $ curve (point (0,0)) []) "hilbert.svg"
-	```
+
+```haskell
+toFile  (hilbert $ hilbert $ hilbert $ hilbert $ curve (point (0,0)) []) "hilbert.svg"
+```
 
 DESCRIPTION OF IMPLEMENTATION
 -----------------------------
+
