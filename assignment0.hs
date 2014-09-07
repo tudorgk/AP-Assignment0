@@ -38,8 +38,8 @@ translatePoint :: Point -> Point -> Point
 translatePoint cPoint pPoint = Point { x = (x cPoint) + (x pPoint), y = (y cPoint) + (y pPoint)}
 
 translate :: Curve -> Point -> Curve
-translate points pPoint
-	= map (translatePoint pPoint) points
+translate (firstPoint:points) pPoint
+	= map (translatePoint Point{x = (x pPoint) - (x firstPoint), y = (y pPoint) - (y firstPoint)}) (firstPoint:points)
 
 data Axis = Vertical | Horizontal deriving (Eq, Show)
 
