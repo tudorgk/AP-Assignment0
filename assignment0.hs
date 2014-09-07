@@ -62,7 +62,7 @@ findMinMaxValues (p1, p2) comparePoint = (Point {x = (min (x p1) (x comparePoint
 --TODO: Fix bounding box
 bbox :: Curve -> (Point, Point)
 bbox [] = error "no items in the list"
-bbox (point:[]) = error "only one point"
+bbox (point:[]) = (point, point)
 bbox points = 
 		let (minPoint, maxPoint) = (
 				Point {x = (min (x (head points)) (x (head (tail points)))) , y = (min (y (head points)) (y (head (tail points))))}, 
