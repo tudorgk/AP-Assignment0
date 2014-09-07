@@ -28,7 +28,7 @@ connect c1 c2 = c1 ++ c2
 rotatePoint :: Double -> Point -> Point
 rotatePoint theta aPoint
 	= Point { x = (x aPoint) * c + (y aPoint) * s , y = (y aPoint) * c - (x aPoint) * s}
-		where (s, c) = (sin	theta, cos theta)
+		where (s, c) = (sin	(theta / 180*pi), cos (theta / 180*pi))
 
 rotate :: Curve -> Double -> Curve
 rotate points theta 
@@ -111,13 +111,14 @@ hilbert c = c0 `connect` c1 `connect` c2 `connect` c3
 
           ch = reflect c Horizontal 0
 
-          c0 = ch `rotate` (-1.571) `translate` (point (w+p+w, h+p+h))
+          c0 = ch `rotate` (-90) `translate` (point (w+p+w, h+p+h))
           c1 = c `translate` (point (w+p+w, h))
           c2 = c
-          c3 = ch `rotate` 1.571 `translate` (point (0, h+p))
+          c3 = ch `rotate` 90 `translate` (point (0, h+p))
 
 
 --TODO: Sanity Checks 
 --let p2 = point (4, 2)
 --let c1 = [point (2, 1),point (4, 5), point (3,3),point (2,5)]
 --c2 = [point (3.62,2.5), point (-2.5, -2.1), point (2.1,8.2), point (-4, -1.21), point (5, -6), point(-6,-5)]
+c12 = [point (4,3), point (-2,4), point (-3,-3), point (4,2), point (2,-3), point (4,6)]
